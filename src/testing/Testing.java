@@ -14,97 +14,123 @@ public class Testing {
 
 //-----------------------------------------------------------------------------------------------	
 		//Add an order 
-		Container shipment=new Container();
-		ArrayList <Object> order1=shipment.addorder();
+		Container shipment = new Container();
+		ArrayList <Object> order_1 = shipment.add_order();
 		
 //-----------------------------------------------------------------------------------------------		
 		//Add item and their information beforehand
-		// Laptop
+		//Laptop
 		Item laptop = new Item();
-		laptop.setItemname("Laptop");
-		ArrayList<Double> laptopsize = new ArrayList<>();
-			laptopsize.add(60.0);laptopsize.add(50.0);laptopsize.add(50.0);
-		laptop.setItemsize(laptopsize);
-		laptop.setItemweight(6.5);
 
-		laptop.iteminfo();
+		laptop.set_item_name("Laptop");
+
+		ArrayList<Double> laptop_size = new ArrayList<>();
+		laptop_size.add(60.0);
+		laptop_size.add(50.0);
+		laptop_size.add(50.0);
+
+		laptop.set_item_size(laptop_size);
+		laptop.set_item_weight(6.5);
+
+		laptop.item_info();
 				
-		// Mouse
+		//Mouse
 		Item mouse = new Item();
-		mouse.setItemname("Mouse");
-		ArrayList<Double> mousesize = new ArrayList<>();
-			mousesize.add(30.0);mousesize.add(30.0);mousesize.add(20.0);
-		mouse.setItemsize(mousesize);
-		mouse.setItemweight(0.2);
 
-		mouse.iteminfo();
+		mouse.set_item_name("Mouse");
+
+		ArrayList<Double> mouse_size = new ArrayList<>();
+		mouse_size.add(30.0);
+		mouse_size.add(30.0);
+		mouse_size.add(20.0);
+
+		mouse.set_item_size(mouse_size);
+		mouse.set_item_weight(0.2);
+
+		mouse.item_info();
 
 		//Desktop
 		Item desktop = new Item();
-		desktop.setItemname("Desktop");
-		ArrayList<Double> desktopsize = new ArrayList<>();
-			desktopsize.add(100.0);desktopsize.add(150.0);desktopsize.add(50.0);
-		desktop.setItemsize(desktopsize);
-		desktop.setItemweight(20.0);
 
-		desktop.iteminfo();
+		desktop.set_item_name("Desktop");
+
+		ArrayList<Double> desktop_size = new ArrayList<>();
+		desktop_size.add(100.0);
+		desktop_size.add(150.0);
+		desktop_size.add(50.0);
+
+		desktop.set_item_size(desktop_size);
+		desktop.set_item_weight(20.0);
+
+		desktop.item_info();
 				
 		//LCD screens
-		Item LCDS = new Item();
-		LCDS.setItemname("LCD Screen");
-		ArrayList<Double> LCDSsize = new ArrayList<>();
-			LCDSsize.add(120.0);LCDSsize.add(140.0);LCDSsize.add(80.0);
-		LCDS.setItemsize(LCDSsize);
-		LCDS.setItemweight(2.6);
+		Item LCD = new Item();
 
-		LCDS.iteminfo();
+		LCD.set_item_name("LCD Screen");
+
+		ArrayList<Double> LCD_size = new ArrayList<>();
+		LCD_size.add(120.0);
+		LCD_size.add(140.0);
+		LCD_size.add(80.0);
+
+		LCD.set_item_size(LCD_size);
+		LCD.set_item_weight(2.6);
+
+		LCD.item_info();
 
 //-----------------------------------------------------------------------------------------------			
 		//Add quantity and items to the order
 		//Adding previously created objects into a list
 		System.out.println("----------------------------------");
-		shipment.additems(order1, 100, laptop.createitemlist()); //add laptop
+		shipment.add_items_to_order(
+			order_1, 100, laptop.create_item_list()); //add laptop
 				
-		shipment.additems(order1, 200, mouse.createitemlist()); //add mouse
+		shipment.add_items_to_order(
+			order_1, 200, mouse.create_item_list()); //add mouse
 
-		shipment.additems(order1, 150, desktop.createitemlist()); //add desktop
+		shipment.add_items_to_order(
+			order_1, 150, desktop.create_item_list()); //add desktop
 				
-		shipment.additems(order1, 200, LCDS.createitemlist()); //add LCD
+		shipment.add_items_to_order(
+			order_1, 200, LCD.create_item_list()); //add LCD
 			
 //-----------------------------------------------------------------------------------------------			
 		//Check information of containers and determine their volumes
 		//Big container information
-		shipment.Bcontainerinfo();
-		double bigcontainervolume=shipment.Bcontainervol();
+		shipment.big_container_info();
+		double big_container_volume = shipment.big_container_vol();
 		
 		//Small container information
-		shipment.Scontainerinfo();
-		double smallcontainervolume=shipment.Scontainervol();
+		shipment.small_container_info();
+		double small_container_volume = shipment.small_container_vol();
 
 //-----------------------------------------------------------------------------------------------				
 		//Calculate total volume of the shipment
-		double shipmentvolume=shipment.totalvol(order1);
-				 
+		double shipment_volume=shipment.total_vol(order_1);
+
 		//Calculate total weight of the shipment
-		double shipmentweight=shipment.totalweight(order1);
+		double shipment_weight=shipment.total_weight(order_1);
 				
 		//Calculate ratio m3:kg
-		double volumeweightratio=shipment.vwratio(shipmentvolume,shipmentweight);
+		double vol_weight_ratio=shipment.volume_weight_ratio(shipment_volume,shipment_weight);
 				
 		//Calculate the best shipping		
-		ArrayList<String> bestshipment=shipment.bestship(shipmentvolume, shipmentweight, bigcontainervolume,smallcontainervolume,volumeweightratio);
+		ArrayList<String> best_shipment=shipment.best_shipment(shipment_volume,
+																shipment_weight, 
+																big_container_volume,
+																small_container_volume,
+																vol_weight_ratio);
 				
 		//Calculate the total price of the shipment
-		int shipmenttotalprice=shipment.totalprice(bestshipment);
+		int shipment_total_price=shipment.total_cost(best_shipment);
 				
 		//Print information of all items within the shipment
-		shipment.itemsinfo(order1);
+		shipment.items_info(order_1);
 		
 		//Print the information of the shipment
-		shipment.orderinfo(order1, shipmentvolume, shipmentweight, bestshipment, shipmenttotalprice);
-				
-				
-				
-	}
+		shipment.order_info(order_1, shipment_volume, shipment_weight, 
+							best_shipment, shipment_total_price);
 
+	}
 }

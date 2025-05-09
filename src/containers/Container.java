@@ -6,107 +6,107 @@ import methods.Calculation;
 
 //SEBASTIAN RUSSO
 public class Container extends Calculation{
-
-//-----------------------------------------------------------------------------------------------		
+		
 	//Attributes for containers (fixed values)
-	//big containet
-	private ArrayList<Double> bcontainersize= new ArrayList<>(Arrays.asList(2.59, 2.43, 12.01));
-	private int bcontainercost=1800;
+	//big container
+	private ArrayList<Double> big_container_measures = new ArrayList<>(Arrays.asList(2.59, 2.43, 12.01));
+	private int big_container_cost = 1800;
 	
-	//small container
-	private ArrayList<Double> scontainersize = new ArrayList<>(Arrays.asList(2.59, 2.43, 6.06));
-	private int scontainercost_s_weigth=1000;
-	private int scontainercost_h_weight=1200;
+	//small containers
+	private ArrayList<Double> small_container_measures = new ArrayList<>(Arrays.asList(2.59, 2.43, 6.06));
+	private int small_cheap_container_cost = 1000;
+	private int small_expensive_container_cost = 1200;
 	
-	/*As stated, all the values of all the attributes in this class are already given because,
-	 since the volume and price of the containers are constant and cannot be modified by the
-	 client then there is no reason to ask the client to set their values*/
-//-----------------------------------------------------------------------------------------------		
 	//Constructor
-    public Container() {}
+	public Container() {}; //Default container to instantiate without passing parameters
 
-    public Container(ArrayList<Double> bcontainersize, int bcontainercost,
-    		ArrayList<Double> scontainersize, int scontainercost_s_weigth, 
-    		int scontainercost_h_weight) {
-    	
-        this.bcontainersize = bcontainersize;
-        this.bcontainercost = bcontainercost;
-        this.scontainersize = scontainersize;
-        this.scontainercost_s_weigth = scontainercost_s_weigth;
-        this.scontainercost_h_weight = scontainercost_h_weight;
+    public Container(ArrayList<Double> big_container_measures , 
+					int big_container_cost,
+					ArrayList<Double> small_container_measures, 
+					int small_cheap_container_cost, 
+					int small_expensive_container_cost) {
+
+        this.big_container_measures  = big_container_measures;
+        this.big_container_cost = big_container_cost;
+        this.small_container_measures = small_container_measures;
+        this.small_cheap_container_cost = small_cheap_container_cost;
+        this.small_expensive_container_cost = small_expensive_container_cost;
     }
-    /*since all values are private of course we need to create an empty constructor and one with
-     the this. keyword so the values can be accessed*/
-//-----------------------------------------------------------------------------------------------		   
+
 	//Setters and getters
 	//get the big container size (length, width, height)
-	public ArrayList<Double> getBcontaienersize() {
-		return this.bcontainersize;}
+	public ArrayList<Double> get_big_container_measures() {
+		return this.big_container_measures ;}
 	//get the big container cost 
-	public int getBcontainercost() {
-		return this.bcontainercost;}
+	public int get_big_container_cost() {
+		return this.big_container_cost;}
 
-	
 	//get the small container size (length, width, height)
-	public ArrayList<Double> getScontainersize() {
-		return scontainersize;}
+	public ArrayList<Double> get_small_container_measures() {
+		return small_container_measures;}
 	//get the small container cheapest cost 
-	public int getScontainercost_s_weigth() {
-		return scontainercost_s_weigth;}
+	public int get_small_cheap_container_cost() {
+		return small_cheap_container_cost;}
 	//get the small container most expensive cost 
-	public int getScontainercost_h_weight() {
-		return scontainercost_h_weight;}
-	
-	/*In this case, only the getters are generated for the reasons given in the attributes,
-	 if the values like size and cost of the containers remain constant and cannot be altered
-	 by the client, then there is no reason to generate setters*/
+	public int get_small_expensive_container_cost() {
+		return small_expensive_container_cost;}
 
 //-----------------------------------------------------------------------------------------------		
 	//Methods
 	//method for the containers volume (implemented from abstract class Calculate)
-	public double Bcontainervol() {
-		double bcv=this.bcontainersize.get(0)*this.bcontainersize.get(1)*this.bcontainersize.get(2);
-		return bcv;
+	public double big_container_vol() {
+		/*
+		* Calculate and return the volume of big container by multiplying each 
+		* measure
+		*/
+		double big_container_volume = (this.big_container_measures.get(0)
+					* this.big_container_measures .get(1)
+					* this.big_container_measures .get(2));
+		return big_container_volume;
 	}
 
-	public double Scontainervol() {
-		double scv=this.scontainersize.get(0)*this.scontainersize.get(1)*this.scontainersize.get(2);
-		return scv;
+	public double small_container_vol() {
+		/*
+		* Calculate and return the volume of small containers by multiplying each 
+		* measure
+		*/
+		double small_container_vol = (this.small_container_measures.get(0)
+									* this.small_container_measures.get(1)
+									* this.small_container_measures.get(2));
+		return small_container_vol;
 	}
-	/*Both of the methods are to calculate and return the volume of both big and small 
-	 containers by multiplying each sizes*/
-	
-	
+
 	//method to print info of both containers (implemented from abstract class Calculate)
-	public void Bcontainerinfo() {
+	public void big_container_info() {
+		/*
+		 * Print the information regarding big containers
+		 */
 		System.out.println("----------------------------------");
 		System.out.println("Big container");
-		System.out.println("-Size= "+this.bcontainersize.get(0)+"m x "+this.bcontainersize.get(1)+"m x "+this.bcontainersize.get(2)+"m");
+		System.out.println("-Size= "+this.big_container_measures .get(0)+"m x "+this.big_container_measures .get(1)+"m x "+this.big_container_measures .get(2)+"m");
 		System.out.println("-Price= "+1800+" euros regardless of weight");
-		System.out.println("-Available volume= "+Bcontainervol()+"m3");
+		System.out.println("-Available volume= "+big_container_vol()+"m3");
 	}
 	
-	public void Scontainerinfo() {
+	public void small_container_info() {
+		/*
+		 * Print the information regarding small containers
+		 */
 		System.out.println("----------------------------------");
 		System.out.println("Small container");
-		System.out.println("-Size= "+this.scontainersize.get(0)+"m x "+this.scontainersize.get(1)+"m x "+this.scontainersize.get(2)+"m");
-		System.out.println("-Price= "+1000+" euros if weight<="+500+"kg, but if weight>"+500+"kg then "+1200+" euros");
-		System.out.println("-Available volume= "+Scontainervol()+"m3");
+		System.out.println("-Size= "+this.small_container_measures.get(0)+"m x "+this.small_container_measures.get(1)+"m x "+this.small_container_measures.get(2)+"m");
+		System.out.println("-Price= "+1000+" euros if weight <= "+500+"kg, but if weight > "+500+"kg then "+1200+" euros");
+		System.out.println("-Available volume= "+small_container_vol()+"m3");
 	}
-	/*These methods are simply to print the information regarding both type of containers*/
-	
 	
 //-----------------------------------------------------------------------------------------------		
 	//Abstract methods required to be implemented but not useful to this class
 	@Override
-	public void iteminfo() {// TODO Auto-generated method stub
+	public void item_info() {// TODO Auto-generated method stub
 		}
 	@Override
-	public double itemvol() {// TODO Auto-generated method stub
+	public double item_vol() {// TODO Auto-generated method stub
 		return 0;}
-	/*These are just the unuseful methods to this class but that must be implemented here, 
-	 however,are useful to the Item class*/
-	
-	
-	
+/*These are just the Unused methods to this class but that must be implemented here, 
+however,are useful to the Item class*/
 }

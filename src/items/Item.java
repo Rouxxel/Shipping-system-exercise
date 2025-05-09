@@ -4,106 +4,112 @@ import java.util.ArrayList;
 import methods.Calculation;
 
 //SEBASTIAN RUSSO
-public class Item extends Calculation{
 
-//-----------------------------------------------------------------------------------------------
+//Class for Item instantiation
+public class Item extends Calculation{
 	//Attributes for item's traits
-	private String itemname;
-	private ArrayList<Double> itemsize;
-	private double itemweight;
-	
-//-----------------------------------------------------------------------------------------------
+	private String item_name;
+	private ArrayList<Double> item_size;
+	private double item_weight;
+
 	//Constructors
 	public Item() {}
-	public Item(String itemname, ArrayList<Double> itemsize,double itemweight) {
-		this.itemname = itemname;
-		this.itemsize= itemsize;
-		this.itemweight = itemweight;
+	public Item(String item_name, ArrayList<Double> item_size,double item_weight) {
+		this.item_name = item_name;
+		this.item_size= item_size;
+		this.item_weight = item_weight;
 	}
 
-//-----------------------------------------------------------------------------------------------	
 	//Getters and setters
 	//Set and get the name of the item
-	public String getItemname() {
-		return this.itemname;}
-	public void setItemname(String itemname) {
-		this.itemname = itemname;}
+	public String get_item_name() {
+		return this.item_name;}
+	public void set_item_name(String item_name) {
+		this.item_name = item_name;}
 
 	//Set and get the item's size (Length,Width,Height)
-	public ArrayList<Double> getItemsize() {
-		return this.itemsize;}
-	public void setItemsize(ArrayList<Double> itemsize) {
-		this.itemsize = itemsize;}
+	public ArrayList<Double> get_item_size() {
+		return this.item_size;}
+	public void set_item_size(ArrayList<Double> item_size) {
+		this.item_size = item_size;}
 
-	//Set and get itme's weight
-	public double getItemweight() {
-		return this.itemweight;}
-	public void setItemweight(double itemweight) {
-		this.itemweight = itemweight;}
+	//Set and get item's weight
+	public double get_item_weight() {
+		return this.item_weight;}
+	public void set_item_weight(double item_weight) {
+		this.item_weight = item_weight;}
 	
 //-----------------------------------------------------------------------------------------------
 	//Methods
 	//To print the info of just 1 item (implemented from abstract class Calculate)
-	public void iteminfo() {
+	public void item_info() {
+		/*This method is simply to print the information of the entered item*/
 		System.out.println("----------------------------------");
 		System.out.println("Saved item:");
-		System.out.println("-Name= "+this.itemname);
-		System.out.println("-Size= "+this.itemsize.get(0)+"cm x "+this.itemsize.get(1)+"cm x "+this.itemsize.get(2)+"cm");
-		System.out.println("-Volume= "+itemvol()+"m3 ");
-		System.out.println("-Weight= "+this.itemweight+"kg");
+		System.out.println("-Name= "+this.item_name);
+		System.out.println("-Size= "+this.item_size.get(0)+"cm x "
+							+this.item_size.get(1)+"cm x "
+							+this.item_size.get(2)+"cm");
+		System.out.println("-Volume= "+item_vol()+"m3 ");
+		System.out.println("-Weight= "+this.item_weight+"kg");
 	}
-	/*This method is simply to print the information of the entered item*/
-
 	
 	//To calculate the volume of each individual item (implemented from abstract class Calculate)
-	public double itemvol() {
-		double x=(this.itemsize.get(0)*this.itemsize.get(1)*this.itemsize.get(2))/1000000;
-		return x;
+	public double item_vol() {
+		/*
+		 * This method is to calculate and return the volume of the item by 
+		 * container by multiplying each sizes but since the entered values 
+		 * are expected to be cm, it is divided by 1000000 to convert the 
+		 * result from cm3 to m3
+		 */
+
+		//Calculate item volume
+		double item_volume = (this.item_size.get(0)
+								* this.item_size.get(1)
+								* this.item_size.get(2));
+		item_volume = item_volume / 1000000; //Convert to m3
+
+		//Return volume
+		return item_volume;
 	}
-	/*This method is to calculate and return the volume of the item by container by multiplying 
-	 each sizes but since the entered values are expected to be cm, it is divided by 1000000 to
-	 automatically convert the result from cm3 to m3*/
-	
 	
 	//Generate list for each created object
-	public ArrayList<Object>createitemlist(){
-		ArrayList<Object> singleitemlist = new ArrayList<>();
-		singleitemlist.add(this.itemname);
-		singleitemlist.add(this.itemsize.get(0));
-		singleitemlist.add(this.itemsize.get(1));
-		singleitemlist.add(this.itemsize.get(2));
-		singleitemlist.add(this.itemweight);
+	public ArrayList<Object>create_item_list(){
+		/*
+		 * This is an extra method i decided to add, it simply generates 
+		 * and returns an ArrayList that stores the name, the 3 sizes 
+		 * and the weight of the entered item, that way it can be used in 
+		 * the add_items method of the Calculation class and therefore 
+		 * allow to use the following methods
+		 */
+
+		//Instantiate list for item info
+		ArrayList<Object> item_info_list = new ArrayList<>();
+		item_info_list.add(this.item_name);
+		item_info_list.add(this.item_size.get(0));
+		item_info_list.add(this.item_size.get(1));
+		item_info_list.add(this.item_size.get(2));
+		item_info_list.add(this.item_weight);
 		
-		return singleitemlist;
+		//Return list of item
+		return item_info_list;
 	}
-	/*This is an extra method i decided to add, it simply generates and returns an ArrayList 
-	 that stores the name, the 3 sizes and the weight of the entered item, that way it can be
-	 used in the additems method of the Calculation class and therefore allow to use the 
-	 following methods*/
-	
-	
-	
 	
 //-----------------------------------------------------------------------------------------------	
-	//Unuseful abstract methods
+	//Unused abstract methods
 	@Override
-	public void Bcontainerinfo() {// TODO Auto-generated method stub
+	public void big_container_info() {// TODO Auto-generated method stub
 		}
 	@Override
-	public void Scontainerinfo() {// TODO Auto-generated method stub
+	public void small_container_info() {// TODO Auto-generated method stub
 		}
 	@Override
-	public double Bcontainervol() {// TODO Auto-generated method stub
+	public double big_container_vol() {// TODO Auto-generated method stub
 		return 0;}
 	@Override
-	public double Scontainervol() {// TODO Auto-generated method stub
+	public double small_container_vol() {// TODO Auto-generated method stub
 		return 0;}
 
-	/*These are just the unuseful methods to this class but that must be implemented here, 
-	 however,are useful to the Item class*/
-
-	
-	
-	
-	
+	/*These are just the unused methods to this class but that must be implemented here, 
+	however,are useful to the Item class*/
 }

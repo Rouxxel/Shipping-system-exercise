@@ -11,143 +11,142 @@ public class Testingeverything {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		//Add an order, addorders method
+		//Add an order, add_orders method
 		Container shipment=new Container();
-		ArrayList <Object> order1=shipment.addorder();
+		ArrayList <Object> order_1=shipment.add_order();
 		System.out.println("");
-		System.out.println("Testing return of add order method= "+order1+" (should have an id for the order)");
+		System.out.println("Testing return of add order method= "+order_1+" (should have an id for the order)");
 		
 		//Add item and their information beforehand
 		// Laptop
 		Item laptop = new Item();
-		laptop.setItemname("Laptop");
-		ArrayList<Double> laptopsize = new ArrayList<>();
-		laptopsize.add(60.0);
-		laptopsize.add(50.0);
-		laptopsize.add(50.0);
-		laptop.setItemsize(laptopsize);
-		laptop.setItemweight(6.5);
+		laptop.set_item_name("Laptop");
+		ArrayList<Double> laptop_size = new ArrayList<>();
+		laptop_size.add(60.0);
+		laptop_size.add(50.0);
+		laptop_size.add(50.0);
+		laptop.set_item_size(laptop_size);
+		laptop.set_item_weight(6.5);
 
-		laptop.iteminfo();
+		laptop.item_info();
 		
 		System.out.println("");
-		System.out.println("Testing return of item volume method testing= " + laptop.itemvol());
-		System.out.println("Testing return of item list of values of laptop testing= " + laptopsize);
-		System.out.println("Testing return of item list of information testing= "+laptop.createitemlist());
+		System.out.println("Testing return of item volume method testing= " + laptop.item_vol());
+		System.out.println("Testing return of item list of values of laptop testing= " + laptop_size);
+		System.out.println("Testing return of item list of information testing= "+laptop.create_item_list());
 		
 		// Mouse
 		Item mouse = new Item();
-		mouse.setItemname("Mouse");
-		ArrayList<Double> mousesize = new ArrayList<>();
-		mousesize.add(30.0);
-		mousesize.add(30.0);
-		mousesize.add(20.0);
-		mouse.setItemsize(mousesize);
-		mouse.setItemweight(0.2);
+		mouse.set_item_name("Mouse");
+		ArrayList<Double> mouse_size = new ArrayList<>();
+		mouse_size.add(30.0);
+		mouse_size.add(30.0);
+		mouse_size.add(20.0);
+		mouse.set_item_size(mouse_size);
+		mouse.set_item_weight(0.2);
 
-		mouse.iteminfo();
+		mouse.item_info();
 		
 		System.out.println("");
-		System.out.println("Testing return of item volume method testing= " + mouse.itemvol());
-		System.out.println("Testing return of item list of values of mouse testing= " + mousesize);
-		System.out.println("Testing return of item list of information testing= "+mouse.createitemlist());
+		System.out.println("Testing return of item volume method testing= " + mouse.item_vol());
+		System.out.println("Testing return of item list of values of mouse testing= " + mouse_size);
+		System.out.println("Testing return of item list of information testing= "+mouse.create_item_list());
 
 		//Desktop
 		Item desktop = new Item();
-		desktop.setItemname("Desktop");
-		ArrayList<Double> desktopsize = new ArrayList<>();
-		desktopsize.add(100.0);
-		desktopsize.add(150.0);
-		desktopsize.add(50.0);
-		desktop.setItemsize(desktopsize);
-		desktop.setItemweight(20.0);
+		desktop.set_item_name("Desktop");
+		ArrayList<Double> desktop_size = new ArrayList<>();
+		desktop_size.add(100.0);
+		desktop_size.add(150.0);
+		desktop_size.add(50.0);
+		desktop.set_item_size(desktop_size);
+		desktop.set_item_weight(20.0);
 
-		desktop.iteminfo();
+		desktop.item_info();
 		
 		System.out.println("");
-		System.out.println("Testing return of item volume method testing= " + desktop.itemvol());
-		System.out.println("Testing return of item list of values of Desktop testing= " + desktopsize);
-		System.out.println("Testing return of item list of information testing= "+desktop.createitemlist());
+		System.out.println("Testing return of item volume method testing= " + desktop.item_vol());
+		System.out.println("Testing return of item list of values of Desktop testing= " + desktop_size);
+		System.out.println("Testing return of item list of information testing= "+desktop.create_item_list());
 		
 		//LCD screens
-		Item LCDS = new Item();
-		LCDS.setItemname("LCD Screen");
-		ArrayList<Double> LCDSsize = new ArrayList<>();
-		LCDSsize.add(120.0);
-		LCDSsize.add(140.0);
-		LCDSsize.add(80.0);
-		LCDS.setItemsize(LCDSsize);
-		LCDS.setItemweight(2.6);
+		Item LCD = new Item();
+		LCD.set_item_name("LCD Screen");
+		ArrayList<Double> LCD_size = new ArrayList<>();
+		LCD_size.add(120.0);
+		LCD_size.add(140.0);
+		LCD_size.add(80.0);
+		LCD.set_item_size(LCD_size);
+		LCD.set_item_weight(2.6);
 
-		LCDS.iteminfo();
+		LCD.item_info();
 		
 		System.out.println("");
-		System.out.println("Testing return of item volume method testing= " + LCDS.itemvol());
-		System.out.println("Testing return of item list of values of LCD testing= " + LCDSsize);
-		System.out.println("Testing return of item list of information testing= "+LCDS.createitemlist());
+		System.out.println("Testing return of item volume method testing= " + LCD.item_vol());
+		System.out.println("Testing return of item list of values of LCD testing= " + LCD_size);
+		System.out.println("Testing return of item list of information testing= "+LCD.create_item_list());
 		
-		//Add quantity and items, additemsmethods test 
+		//Add quantity and items, add_items_to_ordermethods test 
 		//Adding previously created objects into a list
 		System.out.println("----------------------------------");
-		shipment.additems(order1, 100, laptop.createitemlist());
-		System.out.println("Testing return of iteration of list 1="+order1);
+		shipment.add_items_to_order(order_1, 100, laptop.create_item_list());
+		System.out.println("Testing return of iteration of list 1="+order_1);
 		
-		shipment.additems(order1, 200, mouse.createitemlist());
-		System.out.println("Testing return of iteration of list 2="+order1);
+		shipment.add_items_to_order(order_1, 200, mouse.create_item_list());
+		System.out.println("Testing return of iteration of list 2="+order_1);
 		
-		shipment.additems(order1, 150, desktop.createitemlist());
-		System.out.println("Testing return of iteration of list 3="+order1);
+		shipment.add_items_to_order(order_1, 150, desktop.create_item_list());
+		System.out.println("Testing return of iteration of list 3="+order_1);
 		
-		shipment.additems(order1, 200, LCDS.createitemlist());
-		System.out.println("Testing return of iteration of list 4="+order1);
+		shipment.add_items_to_order(order_1, 200, LCD.create_item_list());
+		System.out.println("Testing return of iteration of list 4="+order_1);
 		
 		System.out.println("");
 		System.out.println("Checks the if each time an item is added is stored within the list dedicated to the order");
 
 		
 		// Container class test------------------------------------------------------------------
-		//Checkn information of containers and create their volumes
-		shipment.Bcontainerinfo();
+		//Check information of containers and create their volumes
+		shipment.big_container_info();
 		System.out.println("");
-		System.out.println("Testing return of big container total volume "+shipment.Bcontainervol());
-		double bigcontainervolume=shipment.Bcontainervol();
+		System.out.println("Testing return of big container total volume "+shipment.big_container_vol());
+		double big_container_volume=shipment.big_container_vol();
 		
-		shipment.Scontainerinfo();
+		shipment.small_container_info();
 		System.out.println("");
-		System.out.println("Testing return of small container total volume "+shipment.Scontainervol());
-		double smallcontainervolume=shipment.Scontainervol();
+		System.out.println("Testing return of small container total volume "+shipment.small_container_vol());
+		double small_container_volume=shipment.small_container_vol();
 		
 		System.out.println("----------------------------------");
 		
 		//Calculate total volume of the shipment
-		System.out.println("Testing return of total volume method of the shipment= "+shipment.totalvol(order1)+"m3");
-		double shipmentvolume=shipment.totalvol(order1); 
+		System.out.println("Testing return of total volume method of the shipment= "+shipment.total_vol(order_1)+"m3");
+		double shipment_volume=shipment.total_vol(order_1); 
 		
 		//Calculate total weight of the shipment
-		System.out.println("Testing return of total weight method of the shipment= "+shipment.totalweight(order1)+"kg");
-		double shipmentweight=shipment.totalweight(order1);
+		System.out.println("Testing return of total weight method of the shipment= "+shipment.total_weight(order_1)+"kg");
+		double shipment_weight=shipment.total_weight(order_1);
 		
 		//Calculate ratio m3:kg
-		System.out.println("Testing return of ratio method of the shipment= 1m3:"+shipment.vwratio(shipmentvolume,shipmentweight)+"kg");
-		double volumeweightratio=shipment.vwratio(shipmentvolume,shipmentweight);
+		System.out.println("Testing return of ratio method of the shipment= 1m3:"+shipment.volume_weight_ratio(shipment_volume,shipment_weight)+"kg");
+		double volume_weight_ratio=shipment.volume_weight_ratio(shipment_volume,shipment_weight);
 		
 		//Calculate the best shipping
-		ArrayList<String> bestshipment=shipment.bestship(shipmentvolume, shipmentweight, bigcontainervolume,smallcontainervolume,volumeweightratio);
+		ArrayList<String> best_shipment=shipment.best_shipment(shipment_volume, shipment_weight, big_container_volume,small_container_volume,volume_weight_ratio);
 		System.out.println("");
-		System.out.println("Testing return of needed containers list testing= "+bestshipment);
+		System.out.println("Testing return of needed containers list testing= "+best_shipment);
 		
 		//Calculate the total price of the shipment
-		int shipmenttotalprice=shipment.totalprice(bestshipment);
+		int shipment_total_price=shipment.total_cost(best_shipment);
 		System.out.println("");
-		System.out.println("Testing return of total price method= "+shipmenttotalprice+" Euros");
+		System.out.println("Testing return of total price method= "+shipment_total_price+" Euros");
 		
 		//Print information of all items within the shipment
-		shipment.itemsinfo(order1);
+		System.out.println(order_1);
+		shipment.items_info(order_1);
 		
 		//Print the information of the shipment
-		shipment.orderinfo(order1, shipmentvolume, shipmentweight, bestshipment, shipmenttotalprice);
-		
-		
+		shipment.order_info(order_1, shipment_volume, shipment_weight, best_shipment, shipment_total_price);
 		
 	}
 
