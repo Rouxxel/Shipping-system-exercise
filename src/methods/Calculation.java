@@ -87,6 +87,7 @@ public abstract class Calculation {
 		for (int i = 1; i < order_list.size(); i = i + 1) {
 
 			//Access each list individually because each list represents an item
+			@SuppressWarnings("unchecked")
 			ArrayList<Object> item = (ArrayList<Object>) order_list.get(i);
 
 			//Calculate volume
@@ -123,6 +124,7 @@ public abstract class Calculation {
 		for (int i = 1; i < order_list.size(); i = i + 1) {
 
 			//Access each list individually because each list represents an item
+			@SuppressWarnings("unchecked")
 			ArrayList<Object> item = (ArrayList<Object>) order_list.get(i);
 
 			//Calculate weight
@@ -186,7 +188,7 @@ public abstract class Calculation {
 		double remaining_weight = total_weight;
 
 		//First, Check how many big containers are required because its the best cost-value
-		//Substract remaining volume and weight
+		//Subtract remaining volume and weight
 		for (double i = big_container_vol; i < total_vol; i = i + big_container_vol) {
 			needed_containers.add("Big Container");
 			remaining_vol = remaining_vol - big_container_vol;
@@ -279,6 +281,7 @@ public abstract class Calculation {
 		System.out.println("-Items within the shipment "+final_list.get(0)+": ");
 		for (int i = 1; i < final_list.size(); i = i + 1) {
 			//Obtain list of info of each item
+			@SuppressWarnings("unchecked")
 			ArrayList<Object> item_info_list = (ArrayList<Object>) final_list.get(i);
 
 			//Print quantity x name of volume and weight
