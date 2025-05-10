@@ -297,22 +297,28 @@ public abstract class Calculation {
 
 	// -----------------------------------------------------------------------------------------------
 	// Print order info
-	public void order_info(ArrayList<Object> final_list, double total_vol, 
-							double total_weight, ArrayList<String> best_shipment,
-			int total_cost) {
+	public void order_info(ArrayList<Object> final_list, 
+							double total_vol, 
+							double total_weight, 
+							ArrayList<String> best_shipment,
+							int total_cost) {
 		/* 
 		 * Print all information of the shipment order
 		 */
 		System.out.println("----------------------------------");
-		System.out.println("Order " + final_list.get(0) + " information");
+		System.out.println("Order information");
 		System.out.println("-Order ID: " + final_list.get(0));
 
 		// Shipment information
 		System.out.print("-Items within the shipment: ");
 		for (int i = 1; i < final_list.size(); i = i + 1) {
+			//Extract item info individually
+			@SuppressWarnings("unchecked") //Data is sure an array list of multiple data type
+			ArrayList<Object> item_list = (ArrayList<Object>) final_list.get(i);
+
 			//Print quantity x item name
-			System.out.print(final_list.get(0));
-			System.out.print("x " + final_list.get(1));
+			System.out.print(item_list.get(0));
+			System.out.print("x " + item_list.get(1));
 			System.out.print(", ");
 		}
 		System.out.println("");
