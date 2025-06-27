@@ -2,6 +2,7 @@ package methods;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 //SEBASTIAN RUSSO
 //Class for performing the relevant calculations
@@ -94,6 +95,7 @@ public abstract class Calculation {
 
 			//Calculate volume
 			double item_volume = 0.0;
+			@SuppressWarnings("unchecked")
 			ArrayList<Double> item_measures = (ArrayList<Double>) item.get("measures");
 			item_volume = (item_measures.get(0) * 
 							item_measures.get(1) * 
@@ -158,20 +160,24 @@ public abstract class Calculation {
 	
 	// -----------------------------------------------------------------------------------------------
 	// Calculate Best Shipping
-	public ArrayList<String> best_shipment(double total_vol, double total_weight, 
-											double big_container_vol, 
-											double small_container_vol,
-											double volume_weight_ratio) {
+	public Map<String, Map<String, Object>> best_shipment(double total_vol, 
+														double total_weight, 
+														double big_container_vol, 
+														double big_container_price,
+														double small_container_vol,
+														double small_container_cheap_price,
+														double small_container_expensive_price,
+														double volume_weight_ratio) {
 		/**
-		* This method aks for the total volume and weight of the shipment, 
+		* This method ask for the total volume and weight of the shipment, 
 		* the total volume of both big and small containers and the ratio
 		* volume:weight in order to generate and return a list of strings 
 		* where each string represents a kind of container (big, small 
 		* cheap or small expensive) to be used in another method.
 		* 
 		* By using a for loop we first check how many big containers are 
-		* required and each time a big container is added then the volume 
-		* of the said big container removes the total volume and weight
+		* required and each time the big container counter is increased then 
+		* the volume of the said big container removes the total volume and weight
 		* of the shipment (by using the ratio).
 		* 
 		* Then we check using if statements to check how many and which kind 
@@ -184,17 +190,40 @@ public abstract class Calculation {
 		* cheapest it will be to ship it, hence why we check first if we can use 
 		* big containers, but it also takes into account that maybe small containers 
 		* are a better option
+		*
+		* the return map will follow
+		* {
+		* 	small_container_expensive={quantity=int, cost=double},
+		*	big_container={quantity=int, cost=double},
+		*	small_container_cheap={quantity=int, cost=double}
+		* }
 		*/
 
-		//Instantiate array for needed containers and total volume and weight
-		ArrayList<String> needed_containers = new ArrayList<>();
+		//Instantiate map for needed containers and other values
 		double remaining_vol = total_vol;
 		double remaining_weight = total_weight;
+
+		Map<String, Map<String, Object>> needed_containers = new HashMap<>();
+		needed_containers.put("big_container",new HashMap<>(){{
+			put("quantity", 0);
+			put("cost", big_container_price);
+		}});
+		needed_containers.put("small_container_expensive", new HashMap<>(){{
+			put("quantity",0);
+			put("cost", small_container_expensive_price);
+		}});
+		needed_containers.put("small_container_cheap", new HashMap<>(){{
+			put("quantity", 0);
+			put("cost", small_container_cheap_price);
+		}});
 
 		//First, Check how many big containers are required because its the best cost-value
 		//Subtract remaining volume and weight
 		for (double i = big_container_vol; i < total_vol; i = i + big_container_vol) {
-			needed_containers.add("Big Container");
+			//Update big container number each iteration
+			needed_containers.get("big_container").put("quantity",
+				(int) needed_containers.get("big_container").get("quantity") + 1
+			);
 			remaining_vol = remaining_vol - big_container_vol;
 			remaining_weight = remaining_vol * volume_weight_ratio;
 		}
@@ -203,11 +232,17 @@ public abstract class Calculation {
 		if (remaining_vol > small_container_vol) {
 			for (double i = small_container_vol; i < remaining_vol; i = i + small_container_vol) {
 				if (remaining_weight <= 500) {
-					needed_containers.add("Small Container (cheap)");
+					//Update small cheap container number each iteration
+					needed_containers.get("small_container_cheap").put("quantity",
+						(int) needed_containers.get("small_container_cheap").get("quantity") + 1
+					);
 					remaining_vol = remaining_vol - small_container_vol;
 					remaining_weight = remaining_vol * volume_weight_ratio;
 				} else {
-					needed_containers.add("Small Container (expensive)");
+					//Update small expensive container number each iteration
+					needed_containers.get("small_container_expensive").put("quantity",
+						(int) needed_containers.get("small_container_expensive").get("quantity") + 1
+					);
 					remaining_vol = remaining_vol - small_container_vol;
 					remaining_weight = remaining_vol * volume_weight_ratio;
 				}
@@ -216,12 +251,18 @@ public abstract class Calculation {
 
 		//Check for the last needed container
 		if (remaining_vol <= small_container_vol && remaining_weight <= 500) {
-			needed_containers.add("Small Container (cheap)");
+			//Update small cheap container number each iteration
+			needed_containers.get("small_container_cheap").put("quantity",
+				(int) needed_containers.get("small_container_cheap").get("quantity") + 1
+			);
 			remaining_vol = remaining_vol - small_container_vol;
 			remaining_weight = remaining_vol * volume_weight_ratio;
 		}
 		if (remaining_vol <= small_container_vol && remaining_weight > 500) {
-			needed_containers.add("Small Container (expensive)");
+			//Update small expensive container number each iteration
+			needed_containers.get("small_container_expensive").put("quantity",
+				(int) needed_containers.get("small_container_expensive").get("quantity") + 1
+			);
 			remaining_vol = remaining_vol - small_container_vol;
 			remaining_weight = remaining_vol * volume_weight_ratio;
 		}
@@ -229,18 +270,21 @@ public abstract class Calculation {
 		// Print each required container
 		System.out.println("----------------------------------");
 		System.out.println("Best shipping requires:");
-		for (int i = 0; i < needed_containers.size(); i = i + 1) {
-			System.out.println("-1 x " + needed_containers.get(i));
-		}
+		System.out.println("-" + needed_containers.get("big_container").get("quantity") 
+														+ "x Big containers");
+		System.out.println("-" + needed_containers.get("small_container_cheap").get("quantity") 
+														+ "x Small containers (cheap)");
+		System.out.println("-" + needed_containers.get("small_container_expensive").get("quantity") 
+														+ "x Small containers (expensive)");
 
 		return needed_containers;
 	}
 
 	// -----------------------------------------------------------------------------------------------
 	// Calculate shipping price
-	public int total_cost(ArrayList<String> needed_containers) {
+	public double total_cost(Map<String, Map<String, Object>> needed_containers) {
 		/**
-		* This method asks for the arraylist generated by the best_shipment 
+		* This method asks for the hashmap generated by the best_shipment 
 		* method and then by using a local variable and a for loop, it checks 
 		* each string within the provided list and according to which string 
 		* is presented, it will add a specific value to the local variable and 
@@ -248,25 +292,15 @@ public abstract class Calculation {
 		* that are required
 		*/
 		//Instantiate total price to return
-		int total_cost = 0;
+		double total_cost = 0;
 
-		//Go through the list and calculate the price according to type
-		for (int i = 0; i < needed_containers.size(); i = i + 1) {
-			switch (needed_containers.get(i)) {
-				case "Big Container":
-					total_cost += 1800;
-					break;  
-				case "Small Container (cheap)":
-					total_cost += 1000;
-					break;
-				case "Small Container (expensive)":
-					total_cost += 1200;
-					break;
-				default:
-					System.out.println("Unknown container type: " + needed_containers.get(i));
-					break; 
-			}
-		}
+		//Go through the map and obtain the total cost
+		for (Map<String, Object> containers_info : needed_containers.values()) {
+			//Add cost from each container info
+			total_cost = total_cost + (
+							(int)containers_info.get("quantity") * 
+							(double)containers_info.get("cost"));
+		} 
 
 		System.out.println("----------------------------------");
 		System.out.println("For a total of: " + total_cost + " euros");
@@ -287,6 +321,7 @@ public abstract class Calculation {
 			//Obtain list of info of each item
 			@SuppressWarnings("unchecked")
 			HashMap<String,Object> item_info_list = (HashMap<String,Object>) final_list.get(i);
+			@SuppressWarnings("unchecked")
 			ArrayList<Double> item_measures = (ArrayList<Double>) item_info_list.get("measures"); 
 
 			//Print quantity x name of volume and weight
@@ -308,8 +343,8 @@ public abstract class Calculation {
 	public void order_info(ArrayList<Object> final_list, 
 							double total_vol, 
 							double total_weight, 
-							ArrayList<String> best_shipment,
-							int total_cost) {
+							Map<String, Map<String, Object>> best_shipment,
+							double total_cost) {
 		/* 
 		 * Print all information of the shipment order
 		 */
@@ -338,60 +373,35 @@ public abstract class Calculation {
 
 		//Required containers
 		System.out.print("-Required containers: ");
+
 		//Big containers
-		int big_container_amount = 0;
-		for (int i = 0; i < best_shipment.size(); i = i + 1) {
-			if (best_shipment.get(i) == "Big Container") {
-				big_container_amount = big_container_amount + 1;
-			}
-		}
-		if (big_container_amount > 1) {
-			System.out.print(big_container_amount + " Big containers");
+		int big_container_quantity = (int)best_shipment.get("big_container").get("quantity");
+		if (big_container_quantity >= 1) {
+			System.out.print(big_container_quantity + " Big container/s");
 		} else {
-			if (big_container_amount == 1) {
-				System.out.print(big_container_amount + " Big container");
-			} else {
-				System.out.print("No Big containers");
-			}
+			System.out.print("No Big containers");
 		}
 
-		// Cheap small containers
-		int small_cheap_container_amount = 0;
-		for (int i = 0; i < best_shipment.size(); i = i + 1) {
-			if (best_shipment.get(i) == "Small Container (cheap)") {
-				small_cheap_container_amount = small_cheap_container_amount + 1;
-			}
-		}
-		if (small_cheap_container_amount > 1) {
-			System.out.print(", ");
-			System.out.print(small_cheap_container_amount + " Small Container (cheap)");
+		System.out.print(", ");
+
+		//Cheap small containers
+		int small_container_cheap_quantity = (int)best_shipment.get("small_container_cheap").get("quantity");
+		if (small_container_cheap_quantity >= 1) {
+			System.out.print(small_container_cheap_quantity + " Small container/s (cheap)");
 		} else {
-			if (small_cheap_container_amount == 1) {
-				System.out.print(", ");
-				System.out.print(small_cheap_container_amount + " Small Container (cheap)");
-			} else {
-				System.out.print(", No Small Container (cheap)");
-			}
+			System.out.print("No Small containers (cheap)");
 		}
 
-		// Expensive small containers
-		int small_expensive_container_amount = 0;
-		for (int i = 0; i < best_shipment.size(); i = i + 1) {
-			if (best_shipment.get(i) == "Small Container (expensive)") {
-				small_expensive_container_amount = small_expensive_container_amount + 1;
-			}
-		}
-		if (small_expensive_container_amount > 1) {
-			System.out.print(" and ");
-			System.out.print(small_expensive_container_amount + " Small Container (expensive)");
+		System.out.print(" and ");
+
+		//Expensive small containers
+		int small_expensive_container_amount = (int)best_shipment.get("small_container_expensive").get("quantity");;
+		if (small_expensive_container_amount >= 1) {
+			System.out.print(small_expensive_container_amount + " Small container/s (expensive)");
 		} else {
-			if (small_expensive_container_amount == 1) {
-				System.out.print(" and ");
-				System.out.print(small_expensive_container_amount + " Small Container (expensive)");
-			} else {
-				System.out.print(" and No Small Container (expensive)");
-			}
+			System.out.print("No Small containers (expensive)");
 		}
+
 		System.out.println("");
 		//
 

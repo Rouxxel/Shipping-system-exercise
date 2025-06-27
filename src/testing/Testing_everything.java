@@ -1,5 +1,6 @@
 package testing;
 import java.util.ArrayList;
+import java.util.Map;
 
 import items.Item;
 import containers.Container;
@@ -131,22 +132,34 @@ public class Testing_everything {
 		double volume_weight_ratio=shipment.volume_weight_ratio(shipment_volume,shipment_weight);
 		
 		//Calculate the best shipping
-		ArrayList<String> best_shipment=shipment.best_shipment(shipment_volume, shipment_weight, big_container_volume,small_container_volume,volume_weight_ratio);
+		Map<String, Map<String, Object>> best_shipment=shipment.best_shipment(shipment_volume, 
+																	shipment_weight, 
+																	big_container_volume,
+																	shipment.get_big_container_cost(),
+																	small_container_volume,
+																	shipment.get_small_cheap_container_cost(),
+																	shipment.get_small_expensive_container_cost(),
+																	volume_weight_ratio);
 		System.out.println("");
 		System.out.println("Testing return of needed containers list testing= "+best_shipment);
 		
 		//Calculate the total price of the shipment
-		int shipment_total_price=shipment.total_cost(best_shipment);
+		double shipment_total_price=shipment.total_cost(best_shipment);
 		System.out.println("");
 		System.out.println("Testing return of total price method= "+shipment_total_price+" Euros");
 		
 		//Print information of all items within the shipment
 		System.out.println(order);
 		shipment.items_info(order);
-		
+
 		//Print the information of the shipment
-		shipment.order_info(order, shipment_volume, shipment_weight, best_shipment, shipment_total_price);
-		
+		shipment.order_info(
+							order,
+							shipment_volume,
+							shipment_weight,
+							best_shipment,
+							shipment_total_price
+		);
 	}
 
 }

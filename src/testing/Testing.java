@@ -1,6 +1,7 @@
 package testing;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import containers.Container;
 import items.Item;
@@ -14,7 +15,7 @@ public class Testing {
 //-----------------------------------------------------------------------------------------------	
 		//Add an order 
 		Container shipment = new Container();
-		ArrayList <Object> order_1 = shipment.add_order();
+		ArrayList <Object> order = shipment.add_order();
 		
 //-----------------------------------------------------------------------------------------------		
 		//Add item and their information beforehand
@@ -83,16 +84,16 @@ public class Testing {
 		//Adding previously created objects into a list
 		System.out.println("----------------------------------");
 		shipment.add_items_to_order(
-			order_1, 100, laptop.create_item_map()); //add laptop
+			order, 100, laptop.create_item_map()); //add laptop
 				
 		shipment.add_items_to_order(
-			order_1, 200, mouse.create_item_map()); //add mouse
+			order, 200, mouse.create_item_map()); //add mouse
 
 		shipment.add_items_to_order(
-			order_1, 150, desktop.create_item_map()); //add desktop
+			order, 150, desktop.create_item_map()); //add desktop
 				
 		shipment.add_items_to_order(
-			order_1, 200, LCD.create_item_map()); //add LCD
+			order, 200, LCD.create_item_map()); //add LCD
 			
 //-----------------------------------------------------------------------------------------------			
 		//Check information of containers and determine their volumes
@@ -106,29 +107,32 @@ public class Testing {
 
 //-----------------------------------------------------------------------------------------------				
 		//Calculate total volume of the shipment
-		double shipment_volume=shipment.total_vol(order_1);
+		double shipment_volume=shipment.total_vol(order);
 
 		//Calculate total weight of the shipment
-		double shipment_weight=shipment.total_weight(order_1);
+		double shipment_weight=shipment.total_weight(order);
 				
 		//Calculate ratio m3:kg
 		double vol_weight_ratio=shipment.volume_weight_ratio(shipment_volume,shipment_weight);
 				
 		//Calculate the best shipping		
-		ArrayList<String> best_shipment=shipment.best_shipment(shipment_volume,
+		Map<String, Map<String, Object>> best_shipment=shipment.best_shipment(shipment_volume, 
 																shipment_weight, 
 																big_container_volume,
+																shipment.get_big_container_cost(),
 																small_container_volume,
+																shipment.get_small_cheap_container_cost(),
+																shipment.get_small_expensive_container_cost(),
 																vol_weight_ratio);
 				
 		//Calculate the total price of the shipment
-		int shipment_total_price=shipment.total_cost(best_shipment);
+		double shipment_total_price=shipment.total_cost(best_shipment);
 				
 		//Print information of all items within the shipment
-		shipment.items_info(order_1);
+		shipment.items_info(order);
 		
 		//Print the information of the shipment
-		shipment.order_info(order_1, shipment_volume, shipment_weight, 
+		shipment.order_info(order, shipment_volume, shipment_weight, 
 							best_shipment, shipment_total_price);
 
 	}
