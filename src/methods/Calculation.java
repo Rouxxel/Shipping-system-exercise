@@ -1,8 +1,9 @@
 package methods;
 
 import java.util.ArrayList;
-//SEBASTIAN RUSSO
+import java.util.HashMap;
 
+//SEBASTIAN RUSSO
 //Class for performing the relevant calculations
 public abstract class Calculation {
 
@@ -10,7 +11,7 @@ public abstract class Calculation {
 	// Add an order method
 	public ArrayList<Object> add_order() {
 		/**
-		 * This methods generates an empty list that is inmediately added
+		 * This methods generates an empty list that is added
 		 * a random unique id for the order, so the user is supposed to
 		 * create a value equal to this method so this empty list can be
 		 * updated as the user uses all the other methods
@@ -34,7 +35,7 @@ public abstract class Calculation {
 	// Add items to the order in an empty list
 	public void add_items_to_order(ArrayList<Object> order_list,
 			int quantity,
-			ArrayList<Object> entered_item_list) {
+			HashMap<String,Object> entered_item_list) {
 		/**
 		 * This methods accepts the list that was created with the
 		 * add_order method, the big_container_amount of items that the user wants
@@ -63,9 +64,10 @@ public abstract class Calculation {
 		}
 
 		// Add item to the order list if no condition is met
-		entered_item_list.add(0,quantity);
+		entered_item_list.put("quantity",quantity);
 		order_list.add(entered_item_list);
-		System.out.println("-Added item= " + quantity + "x " + entered_item_list.get(1));
+		System.out.println("-Added item= " + entered_item_list.get("quantity") + 
+							"x " + entered_item_list.get("name"));
 	}
 
 	// -----------------------------------------------------------------------------------------------
@@ -76,9 +78,9 @@ public abstract class Calculation {
 		* method, this method simply asks for the aforementioned list 
 		* and then access the quantity and the size values of each saved item
 		* so the total volume of the whole shipment can be calculated and 
-		* returned with a for loop that checks the specific indexes given 
-		* that the list it always follows the structure:
-		* list[quantity, name, measure1, measure2, measure3, weight]...
+		* returned with a for loop that checks the specific keys given 
+		* that the map it always follows the structure:
+		* hashmap{quantity, name, measures (its a list), weight}...
 		*/
 
 		// Instantiate variable to return
@@ -86,16 +88,18 @@ public abstract class Calculation {
 		// For loop to iterate through all item lists in the order list
 		for (int i = 1; i < order_list.size(); i = i + 1) {
 
-			//Access each list individually because each list represents an item
+			//Access each map individually because each map represents an item
 			@SuppressWarnings("unchecked")
-			ArrayList<Object> item = (ArrayList<Object>) order_list.get(i);
+			HashMap<String,Object> item = (HashMap<String,Object>) order_list.get(i);
 
 			//Calculate volume
 			double item_volume = 0.0;
-			item_volume = ((double) item.get(2) * (double) item.get(3) * 
-							(double) item.get(4));
+			ArrayList<Double> item_measures = (ArrayList<Double>) item.get("measures");
+			item_volume = (item_measures.get(0) * 
+							item_measures.get(1) * 
+							item_measures.get(2));
 			//Obtain total item volume according to quantity and convert to m3
-			item_volume = ((int) item.get(0) * item_volume) / 1000000.0; 
+			item_volume = ((int) item.get("quantity") * item_volume) / 1000000.0; 
 			
 			//Add to the total volume
 			total_volume = total_volume + item_volume;
@@ -113,9 +117,9 @@ public abstract class Calculation {
 		* method, this method simply asks for the aforementioned list 
 		* and then access the quantity and the weight value of each saved item
 		* so the total weight of the whole shipment can be calculated and 
-		* returned with a for loop that checks the specific indexes given 
-		* that the list it always follows the structure:
-		* list[quantity, name, measure1, measure2, measure3, weight]...
+		* returned with a for loop that checks the maps given 
+		* that the map it always follows the structure:
+		* hashmap{quantity, name, measures (its a list), weight}...
 		*/
 
 		// Instantiate variable to return
@@ -125,10 +129,10 @@ public abstract class Calculation {
 
 			//Access each list individually because each list represents an item
 			@SuppressWarnings("unchecked")
-			ArrayList<Object> item = (ArrayList<Object>) order_list.get(i);
+			HashMap<String,Object> item = (HashMap<String,Object>) order_list.get(i);
 
 			//Calculate weight
-			double item_weight = ((int) item.get(0) * (double) item.get(5));
+			double item_weight = ((double) item.get("weight") * (int) item.get("quantity"));
 			//Add to the total volume
 			total_weight = total_weight + item_weight;
 		}
@@ -167,7 +171,7 @@ public abstract class Calculation {
 		* 
 		* By using a for loop we first check how many big containers are 
 		* required and each time a big container is added then the volume 
-		* of the said big container substracts the total volume and weight
+		* of the said big container removes the total volume and weight
 		* of the shipment (by using the ratio).
 		* 
 		* Then we check using if statements to check how many and which kind 
@@ -282,19 +286,20 @@ public abstract class Calculation {
 		for (int i = 1; i < final_list.size(); i = i + 1) {
 			//Obtain list of info of each item
 			@SuppressWarnings("unchecked")
-			ArrayList<Object> item_info_list = (ArrayList<Object>) final_list.get(i);
+			HashMap<String,Object> item_info_list = (HashMap<String,Object>) final_list.get(i);
+			ArrayList<Double> item_measures = (ArrayList<Double>) item_info_list.get("measures"); 
 
 			//Print quantity x name of volume and weight
-			System.out.print(item_info_list.get(0));
-			System.out.print("x " + item_info_list.get(1));
-			System.out.print(" of " + (((double) item_info_list.get(2) 
-								* (double) item_info_list.get(3) 
-								* (double) item_info_list.get(4)) / 1000000)
+			System.out.print(item_info_list.get("quantity"));
+			System.out.print("x " + item_info_list.get("name"));
+			System.out.print(" of " + ((item_measures.get(0) *
+										item_measures.get(1) * 
+										item_measures.get(2)) / 1000000)
 								+ " m3 each box (");
-			System.out.print(item_info_list.get(2) + "x" 
-								+ item_info_list.get(3) + "x" 
-								+ item_info_list.get(4) + ")");
-			System.out.println(" and a weight of " + item_info_list.get(5) + "kg each box");
+			System.out.print(item_measures.get(0) + "x" 
+							+ item_measures.get(1) + "x" 
+							+ item_measures.get(2) + ")");
+			System.out.println(" and a weight of " + item_info_list.get("weight") + "kg each box");
 		}
 	}
 
@@ -317,11 +322,11 @@ public abstract class Calculation {
 		for (int i = 1; i < final_list.size(); i = i + 1) {
 			//Extract item info individually
 			@SuppressWarnings("unchecked") //Data is sure an array list of multiple data type
-			ArrayList<Object> item_list = (ArrayList<Object>) final_list.get(i);
+			HashMap<String,Object> item_list = (HashMap<String,Object>) final_list.get(i);
 
 			//Print quantity x item name
-			System.out.print(item_list.get(0));
-			System.out.print("x " + item_list.get(1));
+			System.out.print(item_list.get("quantity"));
+			System.out.print("x " + item_list.get("name"));
 			System.out.print(", ");
 		}
 		System.out.println("");

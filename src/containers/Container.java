@@ -102,10 +102,10 @@ public class Container extends Calculation{
 //-----------------------------------------------------------------------------------------------		
 	//Abstract methods required to be implemented but not useful to this class
 	@Override
-	public void item_info() {// TODO Auto-generated method stub
+	public void item_info() {
 		}
 	@Override
-	public double item_vol() {// TODO Auto-generated method stub
+	public double item_vol() {
 		return 0;}
 /*These are just the Unused methods to this class but that must be implemented here, 
 however,are useful to the Item class*/

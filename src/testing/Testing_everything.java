@@ -9,13 +9,12 @@ import containers.Container;
 public class Testing_everything {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		//Add an order, add_orders method
 		Container shipment=new Container();
-		ArrayList <Object> order_1=shipment.add_order();
+		ArrayList<Object> order=shipment.add_order();
 		System.out.println("");
-		System.out.println("Testing return of add order method= "+order_1+" (should have an id for the order)");
+		System.out.println("Testing return of add order method= "+order+" (should have an id for the order)");
 		
 		//Add item and their information beforehand
 		// Laptop
@@ -32,8 +31,8 @@ public class Testing_everything {
 		
 		System.out.println("");
 		System.out.println("Testing return of item volume method testing= " + laptop.item_vol());
-		System.out.println("Testing return of item list of values of laptop testing= " + laptop_size);
-		System.out.println("Testing return of item list of information testing= "+laptop.create_item_list());
+		System.out.println("Testing return of item measures of values of laptop testing= " + laptop.get_item_size());
+		System.out.println("Testing return of item list of information testing= "+laptop.create_item_map());
 		
 		// Mouse
 		Item mouse = new Item();
@@ -49,8 +48,8 @@ public class Testing_everything {
 		
 		System.out.println("");
 		System.out.println("Testing return of item volume method testing= " + mouse.item_vol());
-		System.out.println("Testing return of item list of values of mouse testing= " + mouse_size);
-		System.out.println("Testing return of item list of information testing= "+mouse.create_item_list());
+		System.out.println("Testing return of item measures of values of mouse testing= " + mouse.get_item_size());
+		System.out.println("Testing return of item list of information testing= "+mouse.create_item_map());
 
 		//Desktop
 		Item desktop = new Item();
@@ -66,8 +65,8 @@ public class Testing_everything {
 		
 		System.out.println("");
 		System.out.println("Testing return of item volume method testing= " + desktop.item_vol());
-		System.out.println("Testing return of item list of values of Desktop testing= " + desktop_size);
-		System.out.println("Testing return of item list of information testing= "+desktop.create_item_list());
+		System.out.println("Testing return of item measures of values of Desktop testing= " + desktop.get_item_size());
+		System.out.println("Testing return of item list of information testing= "+desktop.create_item_map());
 		
 		//LCD screens
 		Item LCD = new Item();
@@ -83,23 +82,23 @@ public class Testing_everything {
 		
 		System.out.println("");
 		System.out.println("Testing return of item volume method testing= " + LCD.item_vol());
-		System.out.println("Testing return of item list of values of LCD testing= " + LCD_size);
-		System.out.println("Testing return of item list of information testing= "+LCD.create_item_list());
+		System.out.println("Testing return of item measures of values of LCD testing= " + LCD.get_item_size());
+		System.out.println("Testing return of item list of information testing= "+LCD.create_item_map());
 		
-		//Add quantity and items, add_items_to_ordermethods test 
+		//Add quantity and items, add_items_to_order methods test 
 		//Adding previously created objects into a list
 		System.out.println("----------------------------------");
-		shipment.add_items_to_order(order_1, 100, laptop.create_item_list());
-		System.out.println("Testing return of iteration of list 1="+order_1);
+		shipment.add_items_to_order(order, 100, laptop.create_item_map());
+		System.out.println("Testing return of iteration of list 1="+order);
 		
-		shipment.add_items_to_order(order_1, 200, mouse.create_item_list());
-		System.out.println("Testing return of iteration of list 2="+order_1);
+		shipment.add_items_to_order(order, 200, mouse.create_item_map());
+		System.out.println("Testing return of iteration of list 2="+order);
 		
-		shipment.add_items_to_order(order_1, 150, desktop.create_item_list());
-		System.out.println("Testing return of iteration of list 3="+order_1);
+		shipment.add_items_to_order(order, 150, desktop.create_item_map());
+		System.out.println("Testing return of iteration of list 3="+order);
 		
-		shipment.add_items_to_order(order_1, 200, LCD.create_item_list());
-		System.out.println("Testing return of iteration of list 4="+order_1);
+		shipment.add_items_to_order(order, 200, LCD.create_item_map());
+		System.out.println("Testing return of iteration of list 4="+order);
 		
 		System.out.println("");
 		System.out.println("Checks the if each time an item is added is stored within the list dedicated to the order");
@@ -120,12 +119,12 @@ public class Testing_everything {
 		System.out.println("----------------------------------");
 		
 		//Calculate total volume of the shipment
-		System.out.println("Testing return of total volume method of the shipment= "+shipment.total_vol(order_1)+"m3");
-		double shipment_volume=shipment.total_vol(order_1); 
+		System.out.println("Testing return of total volume method of the shipment= "+shipment.total_vol(order)+"m3");
+		double shipment_volume=shipment.total_vol(order); 
 		
 		//Calculate total weight of the shipment
-		System.out.println("Testing return of total weight method of the shipment= "+shipment.total_weight(order_1)+"kg");
-		double shipment_weight=shipment.total_weight(order_1);
+		System.out.println("Testing return of total weight method of the shipment= "+shipment.total_weight(order)+"kg");
+		double shipment_weight=shipment.total_weight(order);
 		
 		//Calculate ratio m3:kg
 		System.out.println("Testing return of ratio method of the shipment= 1m3:"+shipment.volume_weight_ratio(shipment_volume,shipment_weight)+"kg");
@@ -142,11 +141,11 @@ public class Testing_everything {
 		System.out.println("Testing return of total price method= "+shipment_total_price+" Euros");
 		
 		//Print information of all items within the shipment
-		System.out.println(order_1);
-		shipment.items_info(order_1);
+		System.out.println(order);
+		shipment.items_info(order);
 		
 		//Print the information of the shipment
-		shipment.order_info(order_1, shipment_volume, shipment_weight, best_shipment, shipment_total_price);
+		shipment.order_info(order, shipment_volume, shipment_weight, best_shipment, shipment_total_price);
 		
 	}
 

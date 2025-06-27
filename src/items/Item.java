@@ -1,5 +1,6 @@
 package items;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import methods.Calculation;
 
@@ -74,40 +75,38 @@ public class Item extends Calculation{
 	}
 	
 	//Generate list for each created object
-	public ArrayList<Object>create_item_list(){
+	public HashMap<String,Object>create_item_map(){
 		/*
 		 * This is an extra method i decided to add, it simply generates 
-		 * and returns an ArrayList that stores the name, the 3 sizes 
+		 * and returns an HashMap<String,Object> that stores the name, the 3 sizes 
 		 * and the weight of the entered item, that way it can be used in 
 		 * the add_items method of the Calculation class and therefore 
 		 * allow to use the following methods
 		 */
 
-		//Instantiate list for item info
-		ArrayList<Object> item_info_list = new ArrayList<>();
-		item_info_list.add(this.item_name);
-		item_info_list.add(this.item_size.get(0));
-		item_info_list.add(this.item_size.get(1));
-		item_info_list.add(this.item_size.get(2));
-		item_info_list.add(this.item_weight);
+		//Instantiate a hashMap for item info
+		HashMap<String,Object> item_info = new HashMap<>();
+		item_info.put("name", this.item_name);
+		item_info.put("weight", this.item_weight);
+		item_info.put("measures", this.item_size);
 		
 		//Return list of item
-		return item_info_list;
+		return item_info;
 	}
 	
 //-----------------------------------------------------------------------------------------------	
 	//Unused abstract methods
 	@Override
-	public void big_container_info() {// TODO Auto-generated method stub
+	public void big_container_info() {
 		}
 	@Override
-	public void small_container_info() {// TODO Auto-generated method stub
+	public void small_container_info() {
 		}
 	@Override
-	public double big_container_vol() {// TODO Auto-generated method stub
+	public double big_container_vol() {
 		return 0;}
 	@Override
-	public double small_container_vol() {// TODO Auto-generated method stub
+	public double small_container_vol() {
 		return 0;}
 
 	/*These are just the unused methods to this class but that must be implemented here, 

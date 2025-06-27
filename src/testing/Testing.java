@@ -10,7 +10,6 @@ import items.Item;
 public class Testing {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 //-----------------------------------------------------------------------------------------------	
 		//Add an order 
@@ -84,16 +83,16 @@ public class Testing {
 		//Adding previously created objects into a list
 		System.out.println("----------------------------------");
 		shipment.add_items_to_order(
-			order_1, 100, laptop.create_item_list()); //add laptop
+			order_1, 100, laptop.create_item_map()); //add laptop
 				
 		shipment.add_items_to_order(
-			order_1, 200, mouse.create_item_list()); //add mouse
+			order_1, 200, mouse.create_item_map()); //add mouse
 
 		shipment.add_items_to_order(
-			order_1, 150, desktop.create_item_list()); //add desktop
+			order_1, 150, desktop.create_item_map()); //add desktop
 				
 		shipment.add_items_to_order(
-			order_1, 200, LCD.create_item_list()); //add LCD
+			order_1, 200, LCD.create_item_map()); //add LCD
 			
 //-----------------------------------------------------------------------------------------------			
 		//Check information of containers and determine their volumes
